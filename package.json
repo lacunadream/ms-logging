@@ -1,0 +1,16 @@
+{
+  "name": "ms-logging",
+  "version": "1.0.0",
+  "description": "ms-logging",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lacunadream",
+  "license": "ISC",
+  "dependencies": {
+    "dateformat": "^3.0.2",
+    "express-winston": "^2.4.0",
+    "winston": "^2.4.0"
+  }
+}
