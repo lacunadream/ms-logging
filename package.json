@@ -1,6 +1,6 @@
 {
   "name": "ms-logging",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ms-logging",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,6 @@
     "dateformat": "^3.0.2",
     "express-winston": "^2.4.0",
     "winston": "^2.4.0"
-  }
+  },
+  "private": true
 }
