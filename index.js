@@ -1,6 +1,5 @@
-import winston from 'winston';
-import dateformat from 'dateformat';
-import expressWinston from 'express-winston';
+const winston = require('winston');
+const expressWinston = require('express-winston');
 
 const levelConfig = {
   levels: { error: 0, warn: 1, info: 2, database: 3, debug: 4, verbose: 5, input: 6 },
@@ -14,7 +13,7 @@ export const activityTransport = new winston.transports.Console({
   level: 'input',
   colorize: true,
   timestamp: () => {
-    return dateformat(new Date(), 'isoUtcDateTime');
+    return new Date();
   },
   formatter: (options) => {
     return `${winston.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message || JSON.stringify(options.meta)}`;
@@ -26,7 +25,7 @@ export const winstonExpressTransport = new winston.transports.Console({
   level: 'debug',
   colorize: true,
   timestamp: () => {
-    return dateformat(new Date(), 'isoUtcDateTime');
+    return new Date();
   },
   formatter: (options) => {
     return `${winston.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message} | ${options.meta.responseTime} ms | ${options.meta.res.statusCode}`;
