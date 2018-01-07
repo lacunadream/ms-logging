@@ -3,15 +3,15 @@ import dateformat from 'dateformat';
 import expressWinston from 'express-winston';
 
 const levelConfig = {
-  levels: { error: 0, info: 1, database: 2, debug: 3 },
-  colors: { error: 'red', info: 'green', database: 'yellow', debug: 'blue' },
+  levels: { error: 0, warn: 1, info: 2, database: 3, debug: 4, verbose: 5, input: 6 },
+  colors: { error: 'red', warn: 'yellow', info: 'green', database: 'magenta', debug: 'blue', verbose: 'cyan', input: 'grey' },
 };
 
 winston.addColors(levelConfig.colors);
 
 export const activityTransport = new winston.transports.Console({
   name: 'all-console',
-  level: 'debug',
+  level: 'input',
   colorize: true,
   timestamp: () => {
     return dateformat(new Date(), 'isoUtcDateTime');
@@ -25,9 +25,11 @@ export const winstonExpressTransport = new winston.transports.Console({
   name: 'all-console',
   level: 'debug',
   colorize: true,
-  prettyPrint: (data) => {
-    if (data.res !== undefined) return `${data.res.statusCode} - ${data.responseTime} ms - ${dateformat(new Date(), 'isoUtcDateTime')}`;
-    return `${JSON.stringify(data)} - ${dateformat(new Date(), 'isoUtcDateTime')}`;
+  timestamp: () => {
+    return dateformat(new Date(), 'isoUtcDateTime');
+  },
+  formatter: (options) => {
+    return `${winston.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message} | ${options.meta.responseTime} ms | ${options.meta.res.statusCode}`;
   },
 });
 
@@ -35,10 +37,6 @@ export const errorTransport = new winston.transports.Console({
   name: 'error-console',
   level: 'error',
   colorize: true,
-  prettyPrint: (data) => {
-    if (data.res !== undefined) return `${data.res.statusCode} - ${data.responseTime} ms - ${dateformat(new Date(), 'isoUtcDateTime')}`;
-    return `${JSON.stringify(data)} - ${dateformat(new Date(), 'isoUtcDateTime')}`;
-  },  
 });
 
 export const activityFileTransport = new winston.transports.File({
