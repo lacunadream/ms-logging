@@ -7,7 +7,7 @@ exports.logger = exports.expressErrorLogger = exports.expressLogger = exports.er
 
 var _winston = require('winston');
 
-var _winston3 = _interopRequireDefault(_winston);
+var _winston2 = _interopRequireDefault(_winston);
 
 var _dateformat = require('dateformat');
 
@@ -24,9 +24,9 @@ const levelConfig = {
   colors: { error: 'red', warn: 'yellow', info: 'green', database: 'magenta', debug: 'blue', verbose: 'cyan', input: 'grey' }
 };
 
-_winston3.default.addColors(levelConfig.colors);
+_winston2.default.addColors(levelConfig.colors);
 
-const activityTransport = exports.activityTransport = new _winston3.default.transports.Console({
+const activityTransport = exports.activityTransport = new _winston2.default.transports.Console({
   name: 'all-console',
   level: 'input',
   colorize: true,
@@ -41,7 +41,7 @@ const activityTransport = exports.activityTransport = new _winston3.default.tran
   }
 });
 
-const winstonExpressTransport = exports.winstonExpressTransport = new _winston3.default.transports.Console({
+const winstonExpressTransport = exports.winstonExpressTransport = new _winston2.default.transports.Console({
   name: 'all-console',
   level: 'debug',
   colorize: true,
@@ -49,18 +49,17 @@ const winstonExpressTransport = exports.winstonExpressTransport = new _winston3.
     return (0, _dateformat2.default)(new Date(), 'isoUtcDateTime');
   },
   formatter: options => {
-    return `${_winston3.default.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message} | ${options.meta.responseTime} ms | ${options.meta.res.statusCode}`;
+    return `${_winston2.default.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message} | ${options.meta.responseTime} ms | ${options.meta.res.statusCode}`;
   }
 });
 
-const errorTransport = exports.errorTransport = new _winston3.default.transports.Console({
+const errorTransport = exports.errorTransport = new _winston2.default.transports.Console({
   name: 'error-console',
   level: 'error',
-  colorize: true,
-  prettyPrint: true
+  colorize: true
 });
 
-const activityFileTransport = exports.activityFileTransport = new _winston3.default.transports.File({
+const activityFileTransport = exports.activityFileTransport = new _winston2.default.transports.File({
   name: 'all-file',
   level: 'debug',
   json: true,
@@ -69,7 +68,7 @@ const activityFileTransport = exports.activityFileTransport = new _winston3.defa
   maxFiles: 10
 });
 
-const errorFileTransport = exports.errorFileTransport = new _winston3.default.transports.File({
+const errorFileTransport = exports.errorFileTransport = new _winston2.default.transports.File({
   name: 'error-file',
   level: 'error',
   json: true,
@@ -86,7 +85,7 @@ const expressErrorLogger = exports.expressErrorLogger = _expressWinston2.default
   transports: [errorTransport, errorFileTransport]
 });
 
-const logger = exports.logger = new _winston3.default.Logger({
+const logger = exports.logger = new _winston2.default.Logger({
   levels: levelConfig.levels,
   transports: [activityTransport, errorTransport],
   exitOnError: false
