@@ -17,7 +17,10 @@ export const activityTransport = new winston.transports.Console({
     return dateformat(new Date(), 'isoUtcDateTime');
   },
   formatter: (options) => {
-    return `${winston.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message || JSON.stringify(options.meta)}`;
+    if (options.level !== 'error') {
+      return `${_winston2.default.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | ${options.message || JSON.stringify(options.meta)}`;
+    }
+    return `${_winston2.default.config.colorize(options.level, options.level.toUpperCase())} | ${options.timestamp()} | error occured`    
   },
 });
 
@@ -37,6 +40,7 @@ export const errorTransport = new winston.transports.Console({
   name: 'error-console',
   level: 'error',
   colorize: true,
+  prettyPrint: true,
 });
 
 export const activityFileTransport = new winston.transports.File({
@@ -67,7 +71,7 @@ export const expressErrorLogger = expressWinston.errorLogger({
 
 export const logger = new winston.Logger({
   levels: levelConfig.levels,
-  transports: [activityTransport],
+  transports: [activityTransport, errorTransport],
   exitOnError: false,
 });
 
