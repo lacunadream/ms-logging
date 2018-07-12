@@ -73,12 +73,3 @@ export const logger = new winston.Logger({
   transports: [activityTransport, errorTransport],
   exitOnError: false,
 });
-
-
-// // Hook into error function to send error emails
-// logger.on('logging', async (transport, level, message, meta) => {
-//   if (level === 'error' && process.env.NODE_ENV === 'production') {
-//     const stringifiedMeta = JSON.stringify(meta);
-//     await sendErrorEmail((message || stringifiedMeta));
-//   }
-// });
